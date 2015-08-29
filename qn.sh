@@ -211,6 +211,9 @@ function parse_options()
 
     shift
   done
+
+  usage
+  exit 0
 }
 
 

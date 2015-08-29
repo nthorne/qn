@@ -15,12 +15,10 @@ else
   PATH=/bin:/usr/bin:/usr/local/bin
 fi
 
-# TODO: Move some of these to config file
-# Global variables
-QN_FOLDER=$HOME/Documents/work/qn
-QN_TEMPLATE_FOLDER=.templates
-QN_FILENAME_PREFIX=`date '+%Y%m%d-'`
-QN_FILENAME_SUFFIX=.md
+QN_FOLDER=${QN_FOLDER:-$HOME/Documents/qn}
+QN_TEMPLATE_FOLDER=${QN_TEMPLATE_FOLDER:-.templates}
+QN_FILENAME_PREFIX=${QN_FILENAME_PREFIX:-`date '+%Y%m%d-'`}
+QN_FILENAME_SUFFIX=${QN_FILENAME_SUFFIX:-.md}
 
 
 function usage()

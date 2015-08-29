@@ -99,6 +99,8 @@ New_Usage_Heredoc
 
 function parse_options_list()
 {
+  local _doc_shortno=0
+
   while (($#))
   do
     case $1 in
@@ -125,7 +127,8 @@ List_Usage_Heredoc
 
   for file in `find $QN_FOLDER -type f -name "*$QN_FILENAME_SUFFIX"| fgrep -v $QN_TEMPLATE_FOLDER`
   do
-    echo "`basename $file` [`dirname $file | sed -e 's/\.\///g'`] "
+    ((_doc_shortno=_doc_shortno+1))
+    echo "`basename $file` [`dirname $file | sed -e 's/\.\///g'`] %$_doc_shortno"
   done
 }
 
@@ -166,9 +169,21 @@ New_Usage_Heredoc
   test -d $QN_FOLDER || error "$QN_FOLDER: no such folder"
   test -d $QN_FOLDER/$edit_project || error"$edit_project: no such project."
 
-  # TODO: Perhaps allow edit by number?
-
-  if [[ -f $QN_FOLDER/$edit_project/$edit_filename ]]
+  if [[ $edit_filename =~ ^%[0-9]+$ ]]
+  then
+    local _doc_shortno=0
+    local _expected=${edit_filename#"%"}
+    for file in `find $QN_FOLDER -type f -name "*$QN_FILENAME_SUFFIX"| fgrep -v $QN_TEMPLATE_FOLDER`
+    do
+      ((_doc_shortno=_doc_shortno+1))
+      if [[ $_doc_shortno -eq $_expected ]]
+      then
+        $EDITOR $file
+        return
+      fi
+    done
+    error "$edit_filename: invalid shortno."
+  elif [[ -f $QN_FOLDER/$edit_project/$edit_filename ]]
   then
     $EDITOR $QN_FOLDER/$edit_project/$edit_filename
   elif [[ -f $QN_FOLDER/$edit_project/$edit_filename$QN_FILENAME_SUFFIX ]]

@@ -83,7 +83,7 @@ New_Usage_Heredoc
 
   test -n $new_filename || error "FILENAME not specified."
   test -n $new_project || error "PROJECT not specified."
-  test -d $QN_FOLDER || error "\$QN_FOLDER not specified."
+  test -d $QN_FOLDER || error "$QN_FOLDER: no such folder"
   test -d $QN_FOLDER/$new_project || mkdir -p $QN_FOLDER/$new_project
 
   if [[ -n $new_template ]]
@@ -121,7 +121,7 @@ List_Usage_Heredoc
     shift
   done
 
-  test -d $QN_FOLDER || error "\$QN_FOLDER not specified."
+  test -d $QN_FOLDER || error "$QN_FOLDER: no such folder"
 
   for file in `find $QN_FOLDER -type f -name "*$QN_FILENAME_SUFFIX"| fgrep -v $QN_TEMPLATE_FOLDER`
   do
@@ -163,7 +163,7 @@ New_Usage_Heredoc
 
   test -n $edit_filename || error "FILENAME not specified."
   test -n $edit_project || error "PROJECT not specified."
-  test -d $QN_FOLDER || error "\$QN_FOLDER not specified."
+  test -d $QN_FOLDER || error "$QN_FOLDER: no such folder"
   test -d $QN_FOLDER/$edit_project || error"$edit_project: no such project."
 
   # TODO: Perhaps allow edit by number?
